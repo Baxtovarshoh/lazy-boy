@@ -115,6 +115,7 @@ function replay() {
   third.classList.add("hidden");
   timer = 20;
   score = 0;
+  heart = 3
   scoreChange(score);
   heartEle.forEach((e) => e.classList.remove("colored-border"));
 
