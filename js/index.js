@@ -17,6 +17,7 @@ let timer = 20;
 let timeINterval;
 let bubbleInterval;
 let heart = 3;
+let hi = 100;
 let score = 0;
 timeEle.textContent = timer;
 function startGame() {
@@ -42,57 +43,63 @@ function scoreChange(w) {
 function spawnPup() {
   const el = arr[Math.floor(Math.random() * arr.length)];
   const warik = document.createElement("div");
-  const p2 = document.createElement("p");
-  p2.classList.add("reds");
-  warik.classList.add("warik");
+  warik.classList.add("warik", "filter");
   warik.innerHTML = `<img src="assets/${el[1]}.png" alt=""/>
-  <p class="">${el[2]}</p>`;
-  const platformWidth = platform.offsetWidth;
-  const platformHeight = platform.offsetHeight;
+  <p>${el[2]}</p>`;
+
   const bubbleSize = 100;
-  const randomX = Math.random() * (platformWidth - bubbleSize - 50);
+  const platformRect = platform.getBoundingClientRect();
+  const bottomLimit = platformRect.height - bubbleSize;
+  const platformWidth = platformRect.width;
+
+  const randomX = Math.random() * (platformWidth - bubbleSize);
   warik.style.left = `${randomX}px`;
   warik.style.top = `0px`;
-  let speed = 5;
-  let falling = true;
+
+  let speed = 4; // меняй как хочешь, хоть 50
+  let clicked = false;
+
   function fall() {
-    if (!falling) return;
-    const top = parseFloat(warik.style.top);
-    const nextTop = top + speed;
-    if (nextTop + bubbleSize >= platformHeight) {
-      falling = false;
+    let top = parseFloat(warik.style.top);
 
-      if (!warik.classList.contains("catch")) {
+    // Двигаем вниз, но не даём перепрыгнуть границу
+    top = Math.min(top + speed, bottomLimit);
+    warik.style.top = `${top}px`;
+
+    // Достигли низа
+    if (top === bottomLimit) {
+      if (!clicked) {
         heart--;
-        missedBubble(heart, warik); // уменьшаем здоровье только если не был пойман
+        missedBubble(heart, warik);
       }
-
-      warik.remove(); // удаляем в любом случае
+      warik.remove();
       return;
     }
-    warik.style.top = `${nextTop}px`;
+
     requestAnimationFrame(fall);
   }
-  scoreChange(score);
- warik.addEventListener("click", () => {
-    if (warik.classList.contains("catch")) return;
 
-    warik.classList.add("catch");
-    speed = 10;
+  warik.addEventListener("click", () => {
+    if (clicked) return;
+    clicked = true;
+
+    warik.style.top = `${Math.max(parseFloat(warik.style.top) - 80, 0)}px`;
+
+    warik.classList.remove("filter");
+    warik.classList.add("lopnut");
+
     score++;
     scoreChange(score);
 
-    warik.style.backgroundImage = "none";
-    warik.classList.add("lopnut");
-
     setTimeout(() => {
       warik.classList.remove("lopnut");
-    }, 200);
+      warik.style.background = `transparent`;
+    }, 300);
   });
-  platform.appendChild(warik);
-  fall();
-}
 
+  platform.appendChild(warik);
+  requestAnimationFrame(fall);
+}
 
 function missedBubble(hearts, warik) {
   if (hearts < 0) return;
@@ -115,9 +122,9 @@ function replay() {
   third.classList.add("hidden");
   timer = 20;
   score = 0;
-  heart = 3
+  heart = 3;
   scoreChange(score);
-  heartEle.forEach((e) => e.classList.remove("colored-border"));
 
+  [...heartEle].forEach((e) => e.classList.remove("colored-border"));
   startGame();
 }

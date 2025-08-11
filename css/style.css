@@ -130,6 +130,7 @@ body {
   bottom: 0;
   display: flex;
   padding: 0 10px;
+  background: rgb(0, 51, 73);
   text-transform: uppercase;
   font-family: sans-serif;
   font-family: "gotham-bold";
@@ -217,9 +218,9 @@ body {
   gap: 10px;
 }
 .logo {
-  width: 30%;
-  height: 40px;
-  margin-top: 30px;
+  width: 33%;
+  height: 46px;
+  margin-top: 16px;
 }
 .logo > img {
   width: 100%;
@@ -239,7 +240,7 @@ body {
 }
 .e {
   font-weight: 700;
-  font-size: 50px;
+  font-size: 40px;
 }
 .rtr {
   width: 100%;
@@ -278,7 +279,7 @@ body {
 }
 
 .sc-log {
-  width: 30%;
+  width: 35%;
   position: absolute;
   top: 43px;
   transform: translateX(-50%);
@@ -291,6 +292,7 @@ body {
 .platform {
   width: 100%;
   height: 100%;
+  position: absolute;
   user-select: none;
 }
 .warik {
@@ -304,7 +306,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: background 0.9s;
+  transition: all 0.2s ease;
   display: flex;
   font-family: "gotham-bold";
   font-size: 10px;
@@ -312,13 +314,18 @@ body {
   flex-direction: column;
   gap: 10px;
   color: rgb(189, 71, 42);
-  z-index: 3;
+  filter: blur(0);
 }
+
 .warik > img {
   width: 45%;
 }
 .warik.lopnut {
   animation: pop 0.1s steps(1) forwards;
+}
+.warik.filter{
+  filter: blur(3px);
+  transform: translateY();
 }
 
 @keyframes pop {

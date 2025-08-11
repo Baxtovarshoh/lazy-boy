@@ -1,0 +1,20 @@
+@media (max-width: 400px) {
+  body {
+    justify-content: flex-start;
+  }
+  .phone {
+    border-radius: 0;
+    width: 100%;
+    border: 0;
+  }
+  .screen {
+    border-radius: 0;
+    width: 100%;
+  }
+  .notch {
+    display: none;
+  }
+  .swipe {
+    display: none;
+  }
+}
